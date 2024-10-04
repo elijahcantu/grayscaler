@@ -2,7 +2,7 @@
 	"manifest_version": 3,
 	"name": "Grayscaler",
 	"short_name": "Gray the Web",
-	"description": "Applies a grayscale filter on included websites and tabs or all websites except those excluded.",
+	"description": "Applies a grayscale filter on tabs, included websites, or all websites except those excluded.",
 	"version": "1",
 	"author": "Elijah Cantu",
 	"background": {
@@ -14,7 +14,6 @@
 				"*://*/*"
 			],
 			"js": [
-				"js/tinycolor-min.js",
 				"js/manageSites.js",
 				"js/content.js"
 			],

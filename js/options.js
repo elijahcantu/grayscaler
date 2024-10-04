@@ -22,5 +22,5 @@ document.getElementById('add-excluded-site-form').addEventListener('submit', add
 
 document.getElementById('clear-excluded-site-values').addEventListener('click', clearExcludedSiteValues);
 
-document.getElementById('background-toggle').addEventListener('click', toggleBackground);
+//document.getElementById('background-toggle').addEventListener('click', toggleBackground);
 

@@ -6,12 +6,12 @@ chrome.runtime.onInstalled.addListener(function (details) {
   // make sure values exist when plugin is installed or updated
   if (details.reason == "install" || details.reason == "update") {
     // alert('installed') - need to use alert and remove and reload the unpacked extension when testing this
-    chrome.storage.sync.get(['gsSites', 'gsExcluded', 'gsAll', 'gsTabs', 'gsBgToggle'], function (val) {
+    chrome.storage.sync.get(['gsSites', 'gsExcluded', 'gsAll', 'gsTabs' /*, 'gsBgToggle' */], function (val) {
       console.log('gsSites', val.gsSites);
       console.log('gsExcluded', val.gsExcluded);
       console.log('gsTabs', val.gsTabs);
       console.log('gsAll', val.gsAll);
-      console.log('gsBgToggle', val.gsBgToggle);
+    // console.log('gsBgToggle', val.gsBgToggle); 
       if (val.gsSites === undefined) {
         chrome.storage.sync.set({ 'gsSites': [] });
       }
@@ -24,9 +24,9 @@ chrome.runtime.onInstalled.addListener(function (details) {
       if (val.gsAll === undefined) {
         chrome.storage.sync.set({ 'gsAll': false });
       }
-      if (val.gsBgToggle === undefined) {
+    /*  if (val.gsBgToggle === undefined) {
         chrome.storage.sync.set({ 'gsBgToggle': false });
-      }
+      }*/
     });
   }
 });
@@ -35,13 +35,13 @@ chrome.runtime.onInstalled.addListener(function (details) {
 chrome.storage.sync.set({ 'gsTabs': [] });
 
 function grayToggle(info) {
-  chrome.storage.sync.get(['gsSites', 'gsExcluded', 'gsAll', 'gsTabs', 'gsBgToggle'], function (val) {
+  chrome.storage.sync.get(['gsSites', 'gsExcluded', 'gsAll', 'gsTabs', /*'gsBgToggle' */], function (val) {
     console.log('val', val);
     console.log('gsSites', val.gsSites);
     console.log('gsExcluded', val.gsExcluded);
     console.log('gsTabs', val.gsTabs);
     console.log('gsAll', val.gsAll);
-    console.log('gsBgToggle', val.gsBgToggle);
+   // console.log('gsBgToggle', val.gsBgToggle);
     console.log('tabid', info.tabId);
     chrome.tabs.get(info.tabId, function (tab) {
       console.log('chrome.tabs.get tab', tab)

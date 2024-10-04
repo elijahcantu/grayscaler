@@ -350,13 +350,13 @@ function updatePopUpDetails() {
 
 // options.js, and here in others
 function updateOptionsSiteList() {
-    chrome.storage.sync.get(['gsSites', 'gsExcluded', 'gsBgToggle'], function (val) {
+    chrome.storage.sync.get(['gsSites', 'gsExcluded', /*'gsBgToggle'*/], function (val) {
         console.log('gsSites', val.gsSites)
         console.log('gsExcluded', val.gsExcluded);
-        console.log('gsBgToggle', val.gsBgToggle);
+      /*  console.log('gsBgToggle', val.gsBgToggle);*/
         var savedUl = document.getElementById('saved-site-list');
         var excludedUl = document.getElementById('excluded-site-list');
-        var bgToggle = document.getElementById('background-toggle');
+      //  var bgToggle = document.getElementById('background-toggle');
         savedUl.innerHTML = "";
         excludedUl.innerHTML = "";
 
@@ -385,15 +385,15 @@ function updateOptionsSiteList() {
                 excludedUl.appendChild(excludedLi);
             })
         }
-
+/*
         if (val.gsBgToggle) {
             bgToggle.checked = true;
         } else {
             bgToggle.checked = false;
-        }
+        }*/
     });
 }
-
+/*
 function toggleBackground() {
     console.log('toggle background image/color');
     var checkbox = document.getElementById('background-toggle');
@@ -405,11 +405,11 @@ function toggleBackground() {
             checkbox.checked = false;
         } else {
             console.log('not checked, turn it on');
-            chrome.storage.sync.set({ 'gsBgToggle': true });
+          //  chrome.storage.sync.set({ 'gsBgToggle': true });
             checkbox.checked = true;
         }
     });
-}
+}*/
 
 // ****************************
 // Clear sites
