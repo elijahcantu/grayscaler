@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Grayscale</title>
+  <link rel="stylesheet" type="text/css" href="css/shared.css">
+  <link rel="stylesheet" type="text/css" href="css/options.css">
+</head>
+
+<body class="preload">
+  <div class="container">
+    <h1>Grayscale the Web - Manage Saved/Excluded Sites</h1>
+    <p>Use the forms below to manually enter sites you would like saved or excluded.</p>
+    <p>Make sure to add the site name with the end part after the ".", like a .com or a .gov, otherwise your entry won't work, even if it's appears in the list.
+    <p>Example: If you wanted to add www.google.com, you would enter "google.com", not "google".</p>
+    <p>Please note that subdomains won't work with this. So if you add something like "pictures.facebook.com", it will just add "facebook.com".<p>
+    <p>If all of this is too confusing, it may be easier to add/remove sites using the pop up menu as you go by clicking the Grayscale the Web icon in your chrome menu bar.</p>    
+
+    <form id="add-site-form" class="site-form" action="">
+      <h3>Saved Sites:</h3>
+      <p>These sites will always appear gray, regardless of other settings.</p>
+      <input type="text" id="new-site" class="site-input" placeholder="Add Site Here">    
+      <button id="save-new-site" class="save-button">Save New Site</button>
+      <p id="save-site-error" class="error-message">Please make sure to add a full website domain with a beginning and end part, like "google.com" rather than just "google".</p>
+    </form>
+
+    <ul id="saved-site-list"></ul>
+    
+    <button id="clear-site-values" class="save-button clear-button">Remove All Saved Sites</button>
+
+    <form id="add-excluded-site-form" class="site-form site-form--bottom" action="">
+      <h3>Excluded Sites:</h3>
+      <p>These sites will not turn gray when you have "For This Tab" or "For All Sites" modes on.</p>
+      <input type="text" id="new-excluded-site" class="site-input" placeholder="Add Excluded Site Here">
+      <button id="save-new-excluded-site" class="save-button">Exclude New Site</button>
+      <p id="excluded-site-error" class="error-message">Please make sure to add a full website domain with a beginning and end part, like "google.com" rather than just "google".</p>
+    </form>
+    
+    <ul id="excluded-site-list"></ul>
+    
+    <button id="clear-excluded-site-values" class="save-button clear-button">Remove All Excluded Sites</button>
+
+    <div class="background-toggle-section-container">
+      <h3>Remove All Background Colors and Images No Matter What:</h3>
+      <p>Some websites use background images and colors in a way that can't be grayscaled, so you will still see some color there. If you'd like, you can use this toggle to make it so that they will be always removed and replaced with a light gray background.</p>
+
+      <p>Note that if you toggle a site back to color with this setting on, you'll need to refresh the page for the background to go back to normal.</p>
+
+      <div class="background-toggle-container toggle-container">
+        <label>
+          <span>Remove all background colors and images:</span>
+          <br>
+          <input id="background-toggle" class="toggle toggle-all" type="checkbox" checked/>
+        </label>
+      </div>
+    </div>
+    
+  </div>
+    
+  <script type="text/javascript" src="js/manageSites.js"></script>  
+  <script src="js/options.js"></script>  
+</body>
+
+</html>

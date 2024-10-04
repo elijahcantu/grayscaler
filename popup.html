@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Grayscale</title>
+  <link rel="stylesheet" type="text/css" href="css/shared.css">
+  <link rel="stylesheet" type="text/css" href="css/popup.css">
+</head>
+
+<body class="preload">
+  <div class="container">
+    <h1>Grayscale the Web</h1>
+
+    <div class="main-toggles-container clearfix">
+      <div class="this-tab-container toggle-container">
+        <label>
+          <span>For This Tab</span>
+          <br>
+          <input id="this-tab-toggle" class="toggle toggle-all" type="checkbox" checked/>
+        </label>
+      </div>
+      
+      <div class="all-sites-container toggle-container">
+        <label>
+          <span>For All Sites</span>
+          <br>
+          <input id="all-sites-toggle" class="toggle toggle-all" type="checkbox" checked/>
+        </label>
+      </div>
+    </div>       
+    
+    <div class="add-remove-main-container">
+      <p class="site-name">
+        Current Site:<br><strong id="current-site-name" class="ellipsis">Website Name</strong>
+      </p>
+
+      <div id="excluded-container" class="add-remove-container">
+        <div class="button-info-container">
+          <div class="button-info__header">
+            <p id="excluded-info" class="button-info__title-container">
+              <span class="button-info__title">Excluded Status:
+                <span id="excluded-site-status"></span>
+              </span>
+            </p>
+            <button id="excluded-help-toggle" class="hide-show-button">
+              <span>?</span>
+            </button>
+          </div>
+          <p id="excluded-description" class="button-info__description">Excluded sites won't turn gray when<br>"For This Tab" or "For All Sites" mode<br>is on.</p>          
+        </div>      
+
+        <div class="button-container clearfix">
+          <button id="add-excluded-site" class="save-button">Exclude Site</button>
+          <button id="remove-excluded-site" class="save-button clear-button">Stop Excluding Site</button>
+        </div>        
+      </div>
+
+      <div id="saved-container" class="add-remove-container">
+        <div class="button-info-container">
+          <div class="button-info__header">
+            <p id="saved-info" class="button-info__title-container">
+              <span class="button-info__title">Saved Status:
+                <span id="saved-site-status"></span>
+              </span>
+            </p>
+            <button id="saved-help-toggle" class="hide-show-button">
+              <span>?</span>
+            </button>
+          </div>
+          <p id="saved-description" class="button-info__description">Saved sites will always appear gray, regardless of any other settings.</p>
+        </div>
+      
+        <div class="button-container clearfix">
+          <button id="add-saved-site" class="save-button">Save Site</button>
+          <button id="remove-saved-site" class="save-button clear-button">Remove Saved Site</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="manage-sites-container">
+      <a href="#" class="manage-sites">Manage Saved/Excluded Sites</a>
+    </div>  
+  </div>
+
+  <script type="text/javascript" src="js/manageSites.js"></script>
+  <script type="text/javascript" src="js/popup.js">
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+body {
+    margin: 0;  
+}
+
+.container {
+    margin: 0 auto 30px;;    
+    width: 90%;
+}
+
+@media only screen and (min-width: 768px) {
+    .container {
+        width: 750px;
+    }
+}
+h1 {
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 17px;
+}
+p, span {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.error-message {
+    color: #e23636;
+    margin-top: 8px;
+    display: none;
+}
+
+.error-message--show {
+    display: block;
+}
+
+.site-form {
+    padding-top: 30px;
+    border-top: 1px solid lightgray;
+}
+
+.site-form--bottom {
+    padding-top: 10px;
+    margin-top: 25px;
+}
+
+.site-input {
+    display: inline-block;
+    max-width: 200px;
+    font-size: 16px;
+    line-height: 35px;
+    padding: 0 10px 0;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    -webkit-appearance: none;
+    width: 100%;        
+    transition: .3s border-color;
+}
+
+.site-input:focus {
+    outline: 0;
+    border: 1px solid #1587C6;
+}
+
+.remove-button {
+    display: inline-block;
+    padding: 0 5px;
+    margin-left: 2px;
+    border: 0;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #e23636;
+    transition: 0.3s color;
+}
+
+.remove-button:hover, .remove-button:focus {
+    color: #F44848;
+} 
+
+ul {
+    padding-left: 0;
+    list-style-type: none;
+}
+li {
+    font-size: 14px;
+    margin: 0;
+    padding: 8px 0;
+    line-height: 1.5;
+    border-bottom: 1px solid lightgray;
+}
+li:last-of-type {
+    border: 0;
+}
+
+.background-toggle-section-container {
+    border-top: 1px solid lightgray;
+    margin-top: 20px;
+}

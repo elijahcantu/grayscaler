@@ -1,0 +1,178 @@
+body {
+    margin: 0 10px 10px 10px;
+    width: 250px;
+}
+
+.preload *, .preload *:before, .preload *:after {
+    transition: none !important;
+}
+
+h1 {
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+}
+
+p, span, a, label {
+    font-size: 14px;
+    line-height: 1.25;
+    font-weight: 400;
+}
+
+.container--options .this-tab-container,
+.container--options .add-remove-main-container, .container--options .manage-sites-container {       
+    display: none;
+}
+
+.container--options div.all-sites-container {
+    border: 0;
+    padding: 0;
+}
+
+/****************************
+// Toggle Tab and All
+****************************/
+
+.toggle-container {
+    width: 50%;
+    float: left;
+}
+
+.toggle-container:first-of-type {
+    padding-right: 11px;
+}
+
+.toggle-container:last-of-type {
+    border-left: 1px solid lightgray;
+    padding-left: 10px;
+}
+
+/****************************
+// Save/Exclude Site
+****************************/
+
+.add-remove-main-container {
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    padding: 9px 0 9px;    
+    margin: 5px 0;
+}
+
+.site-name {
+    margin: 0 0 8px;
+}
+
+.button-info__title {
+    font-size: 14px;
+    line-height: 22px;
+    margin-bottom: 5px;
+    display: block;
+    width: calc(100% - 35px);
+}
+
+.add-remove-container { 
+    position: relative;
+}
+
+.add-remove-container:first-of-type {
+    border-bottom: 1px solid lightgray;
+    padding-bottom: 9px;
+    margin-bottom: 9px;
+}
+
+.button-info__title-container {
+    margin: 0;
+}
+
+.button-info__description {
+    font-size: 12px;
+    display: none;    
+    margin: 10px 0 0;
+    padding-bottom: 10px;
+}
+
+.button-info__description--show {
+    display: block;
+}
+
+.button-container {
+    position: relative;
+    margin-top: 6px;
+}
+
+.button-info-container {
+    position: relative;
+}
+
+.add-remove-container .save-button {
+    display: inline-block;
+}
+.add-remove-container .clear-button {
+    display: none;
+}
+.add-remove-container--remove .save-button {
+    display: none;
+}
+.add-remove-container--remove .clear-button {
+    display: inline-block;
+}
+
+.save-button {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 0;
+}
+
+.hide-show-button {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    border: 1px solid black;    
+    color: #222;
+    background-color: #0375B4;
+    background-color: #fff;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: 0.3s border-color;
+}
+
+.hide-show-button span {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    font-size: 17px;
+    line-height: 17px;
+    pointer-events: none;
+}
+
+.hide-show-button:hover  {    
+    border-color: #9a9a9a;
+}
+
+.hide-show-button:focus  {
+    outline: 0;
+}
+
+/****************************
+// Manage Sites
+****************************/
+
+.manage-sites-container {
+    padding-top: 5px;
+}
+
+.manage-sites {
+    color: #0375B4;
+    text-decoration: none;
+    transition: 0.3s color;
+}
+
+.manage-sites:hover, .manage-sites:focus {
+    color: #1587C6;
+    text-decoration: underline;
+}
