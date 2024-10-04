@@ -247,7 +247,7 @@ function removeCurrentTab() {
 // ****************************
 
 function turnIconOn() {
-    chrome.browserAction.setIcon({
+    chrome.action.setIcon({
         path: {
             "16": "../img/16-gs-icon-on.png",
             "32": "../img/32-gs-icon-on.png",
@@ -258,7 +258,7 @@ function turnIconOn() {
 }
 
 function turnIconOff() {
-    chrome.browserAction.setIcon({
+    chrome.action.setIcon({
         path: {
             "16": "../img/16-gs-icon-off.png",
             "32": "../img/32-gs-icon-off.png",

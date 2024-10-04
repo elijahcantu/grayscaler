@@ -1,6 +1,6 @@
 updateOptionsSiteList();
 
-chrome.extension.onMessage.addListener(function (request, sender, response) {
+chrome.runtime.onMessage.addListener(function (request, sender, response) {
     // console.log('message received')
     if (request.type === 'refreshOptions') {
         // console.log('refreshOptions message')

@@ -1,3 +1,4 @@
+importScripts('manageSites.js');
 // console.log('Background.js fired');
 
 chrome.runtime.onInstalled.addListener(function (details) {
@@ -26,7 +27,7 @@ chrome.runtime.onInstalled.addListener(function (details) {
       if (val.gsBgToggle === undefined) {
         chrome.storage.sync.set({ 'gsBgToggle': false });
       }
-    });    
+    });
   }
 });
 
@@ -49,7 +50,7 @@ function grayToggle(info) {
       console.log('tab hostname', hostname);
       if (tab.id !== -1) {
         console.log('good to check')
-        
+
         // Check if options page
         if (url === chrome.runtime.getURL('options.html')) {
           console.log('On the options page');
@@ -92,8 +93,8 @@ function grayToggle(info) {
           chrome.tabs.sendMessage(tab.id, { type: 'turnOffGray' });
           turnIconOff();
         }
-      } 
-    });    
+      }
+    });
   });
 }
 
@@ -102,7 +103,7 @@ chrome.webNavigation.onCommitted.addListener(function (info) {
   grayToggle(info);
 });
 
-chrome.tabs.onActivated.addListener(function (info) {  
+chrome.tabs.onActivated.addListener(function (info) {
   console.log('**************** on tab activated ****************');
   grayToggle(info);
 });

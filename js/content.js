@@ -1,6 +1,6 @@
-// console.log('content script running')
+console.log('content script running')
 
-chrome.extension.onMessage.addListener(function (request, sender, response) {
+chrome.runtime.onMessage.addListener(function (request, sender, response) {
     // console.log('content script message received')
     if (request.type === 'turnOnGray') {
         // console.log('turn on gray');
@@ -62,7 +62,7 @@ chrome.extension.onMessage.addListener(function (request, sender, response) {
         });        
     }
     if (request.type === 'turnOffGray') {
-        // console.log('turn off gray');
+        console.log('turn off gray');
         document.querySelector('html').style.filter = "";
     }
 });

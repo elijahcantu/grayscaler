@@ -1,16 +1,12 @@
 {
-"update_url": "https://clients2.google.com/service/update2/crx",
-
-	"manifest_version": 2,
-	"name": "Grayscale the Web - Save Sites",
+	"manifest_version": 3,
+	"name": "Grayscaler",
 	"short_name": "Gray the Web",
-	"description": "Removes all color from websites, turning them gray. Can be set for specific sites and tabs, or for all sites.",
-	"version": "1.0.6",
-	"author": "Dev Astora",
+	"description": "Applies a grayscale filter on included websites and tabs or all websites except those excluded.",
+	"version": "1",
+	"author": "Elijah Cantu",
 	"background": {
-		"scripts": [
-			"js/manageSites.js", "js/background.js"
-		]
+		"service_worker": "js/background.js"
 	},
 	"content_scripts": [
 		{
@@ -18,26 +14,27 @@
 				"*://*/*"
 			],
 			"js": [
-				"js/tinycolor-min.js", "js/manageSites.js", "js/content.js"
+				"js/tinycolor-min.js",
+				"js/manageSites.js",
+				"js/content.js"
 			],
 			"run_at": "document_start"
 		}
 	],
 	"options_page": "options.html",
-	"icons": {		
+	"icons": {
 		"16": "img/16-gs-icon-on.png",
 		"32": "img/32-gs-icon-on.png",
 		"48": "img/48-gs-icon-on.png",
 		"128": "img/128-gs-icon-on.png"
 	},
-	"browser_action": {
+	"action": {
 		"default_icon": {
 			"16": "img/16-gs-icon-off.png",
 			"32": "img/32-gs-icon-off.png",
 			"48": "img/48-gs-icon-off.png",
-			"128": "img/128-gs-icon-off.png"			
+			"128": "img/128-gs-icon-off.png"
 		},
-		"default_title": "GrayScale the Web",
 		"default_popup": "popup.html"
 	},
 	"permissions": [
