@@ -217,10 +217,10 @@ function handleOptionsRemoveAll(siteType, confirmationMessage) {
 function turnIconOn() {
     chrome.action.setIcon({
         path: {
-            "16": "../img/16-gs-icon-on.png",
-            "32": "../img/32-gs-icon-on.png",
-            "48": "../img/48-gs-icon-on.png",
-            "128": "../img/128-gs-icon-on.png"
+            "16": "../icons/16on.png",
+            "32": "../icons/32on.png",
+            "48": "../icons/48on.png",
+            "128": "../icons/128on.png"
         }
     });
 }
@@ -228,10 +228,10 @@ function turnIconOn() {
 function turnIconOff() {
     chrome.action.setIcon({
         path: {
-            "16": "../img/16-gs-icon-off.png",
-            "32": "../img/32-gs-icon-off.png",
-            "48": "../img/48-gs-icon-off.png",
-            "128": "../img/128-gs-icon-off.png"
+            "16": "../icons/16off.png",
+            "32": "../icons/32off.png",
+            "48": "../icons/48off.png",
+            "128": "../icons/128off.png"
         }
     });
 }
