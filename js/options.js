@@ -1,26 +1,28 @@
 updateOptionsSiteList();
 
 chrome.runtime.onMessage.addListener(function (request, sender, response) {
-    // console.log('message received')
-    if (request.type === 'refreshOptions') {
-        // console.log('refreshOptions message')
+    if (request.type === 'updateOptions') {
         updateOptionsSiteList();
     }
 });
 
-document.getElementById('saved-site-list').addEventListener('click', removeSiteFromList)
+document.getElementById('add-site-form').addEventListener('submit', function (e) {
+    handleOptionsAdd(e, 'new-site', 'save-site-error', 'gsSites');
+});
+document.getElementById('add-excluded-site-form').addEventListener('submit', function (e) {
+    handleOptionsAdd(e, 'new-excluded-site', 'excluded-site-error', 'gsExcluded');
+});
+document.getElementById('saved-site-list').addEventListener('click', function (e) {
+    handleOptionsRemove(e, 'gsSites');
+});
+document.getElementById('excluded-site-list').addEventListener('click', function (e) {
+    handleOptionsRemove(e, 'gsExcluded');
+});
 
-document.getElementById('save-new-site').addEventListener('click', addSiteToList);
-document.getElementById('add-site-form').addEventListener('submit', addSiteToList);
+document.getElementById('clear-site-values').addEventListener('click', function () {
+    handleOptionsRemoveAll('gsSites', 'Are you sure you want to remove all of your saved sites?');
+});
 
-document.getElementById('clear-site-values').addEventListener('click', clearSiteValues);
-
-document.getElementById('excluded-site-list').addEventListener('click', removeExcludedSiteFromList)
-
-document.getElementById('save-new-excluded-site').addEventListener('click', addExcludedSiteToList);
-document.getElementById('add-excluded-site-form').addEventListener('submit', addExcludedSiteToList);
-
-document.getElementById('clear-excluded-site-values').addEventListener('click', clearExcludedSiteValues);
-
-//document.getElementById('background-toggle').addEventListener('click', toggleBackground);
-
+document.getElementById('clear-excluded-site-values').addEventListener('click', function () {
+    handleOptionsRemoveAll('gsExcluded', 'Are you sure you want to remove all of your excluded sites?');
+});

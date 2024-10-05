@@ -1,7 +1,3 @@
-// ****************************
-// Add saved and excluded sites
-// ****************************
-
 function addSite(type, site, tabs, callback) {
     var paramObj;
     chrome.storage.sync.get(['gsSites', 'gsExcluded', 'gsTabs', 'gsAll'], function (val) {
@@ -34,7 +30,7 @@ function addCurrentSite() {
     chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
         var hostname = getDomainFromTabs(tabs);
         addSite('gsSites', hostname, tabs, function () {
-            chrome.tabs.sendMessage(tabs[0].id, { type: 'turnOnGray' });
+            chrome.tabs.sendMessage(tabs[0].id, { type: 'enable' });
             turnIconOn();
             updatePopUpDetails();
         });
@@ -47,7 +43,7 @@ function addCurrentSiteExcluded() {
         var hostname = getDomainFromTabs(tabs);
         addSite('gsExcluded', hostname, tabs, function (gsAll, gsTabs, gsSites) {
             if ((gsAll || gsTabs.indexOf(tabs[0].id) > -1) && gsSites.indexOf(hostname) == -1) {
-                chrome.tabs.sendMessage(tabs[0].id, { type: 'turnOffGray' });
+                chrome.tabs.sendMessage(tabs[0].id, { type: 'disable' });
                 turnIconOff();
             }
             updatePopUpDetails();
@@ -55,48 +51,6 @@ function addCurrentSiteExcluded() {
     });
 }
 
-function addSiteToList(e) {
-    e.preventDefault();
-    console.log('addSiteToList form')
-    var newSite = document.getElementById('new-site');
-    var errorMessage = document.getElementById('save-site-error');
-    if (/^[a-zA-Z0-9]{1,}\.[a-zA-Z]{2,}$/.test(newSite.value)) {
-        errorMessage.classList.remove('error-message--show');
-        var newDomain = extractRootDomain(newSite.value);
-        addSite('gsSites', newDomain, false, updateOptionsSiteList);
-        newSite.value = '';
-        newSite.blur();
-        newSite.focus();
-    } else {
-        errorMessage.classList.add('error-message--show');
-        newSite.blur();
-        newSite.focus();
-    }
-}
-
-function addExcludedSiteToList(e) {
-    e.preventDefault();
-    console.log('addExcludedSiteToList form');
-    var newSite = document.getElementById('new-excluded-site');
-    var errorMessage = document.getElementById('excluded-site-error');
-    if (/^[a-zA-Z0-9]{1,}\.[a-zA-Z]{2,}$/.test(newSite.value)) {
-        errorMessage.classList.remove('error-message--show');
-        var newDomain = extractRootDomain(newSite.value);
-        addSite('gsExcluded', newDomain, false, updateOptionsSiteList);
-        newSite.value = '';
-        newSite.blur();
-        newSite.focus();
-    } else {
-        errorMessage.classList.add('error-message--show');
-        newSite.blur();
-        newSite.focus();
-    }
-}
-
-
-// ****************************
-// Remove saved and excluded sites
-// ****************************
 
 function removeSite(type, site, tabs, callback) {
     chrome.storage.sync.get(['gsSites', 'gsAll', 'gsTabs', 'gsExcluded'], function (val) {
@@ -125,10 +79,10 @@ function removeCurrentSite() {
     console.log('remove current site')
     chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
         var url = tabs[0].url;
-        var hostname = extractRootDomain(url);
+        var hostname = extractHostname(url);
         removeSite('gsSites', hostname, tabs, function (gsAll, gsTabs, gsSites) {
             if (!gsAll && gsTabs.indexOf(tabs[0].id) == -1) {
-                chrome.tabs.sendMessage(tabs[0].id, { type: 'turnOffGray' });
+                chrome.tabs.sendMessage(tabs[0].id, { type: 'disable' });
                 turnIconOff();
             }
             updatePopUpDetails();
@@ -140,10 +94,10 @@ function removeCurrentSiteExcluded() {
     console.log('remove current site excluded')
     chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
         var url = tabs[0].url;
-        var hostname = extractRootDomain(url);
+        var hostname = extractHostname(url);
         removeSite('gsExcluded', hostname, tabs, function (gsAll, gsTabs, gsSites) {
-            if ((gsAll || gsTabs.indexOf(tabs[0].id) > -1) && gsSites.indexOf(hostname) == -1) {                
-                chrome.tabs.sendMessage(tabs[0].id, { type: 'turnOnGray' });
+            if ((gsAll || gsTabs.indexOf(tabs[0].id) > -1) && gsSites.indexOf(hostname) == -1) {
+                chrome.tabs.sendMessage(tabs[0].id, { type: 'enable' });
                 turnIconOn();
             }
             updatePopUpDetails();
@@ -151,40 +105,24 @@ function removeCurrentSiteExcluded() {
     });
 }
 
-function removeSiteFromList(e) {
-    var siteName = e.target.getAttribute('data-site');
-    removeSite('gsSites', siteName, false, updateOptionsSiteList);
-}
-
-function removeExcludedSiteFromList(e) {
-    var siteName = e.target.getAttribute('data-site');
-    removeSite('gsExcluded', siteName, false, updateOptionsSiteList);
-}
-
-// ****************************
-// Add saved tabs
-// ****************************
-
 function addTab(tabId, hostname, callback) {
     chrome.storage.sync.get(['gsTabs', 'gsExcluded'], function (val) {
-        console.log('addTab', val)
+
         if (!val.gsTabs || val.gsTabs.length < 1) {
             console.log('gsTabs doesnt exist yet, lets add it');
             chrome.storage.sync.set({ 'gsTabs': [tabId] }, function () {
                 if (val.gsExcluded.indexOf(hostname) == -1) {
                     callback();
-                }                
+                }
             });
-        } else if (val.gsTabs.indexOf(tabId) > -1) {
-            console.log('tab is already added there')
+        } else if (val.gsTabs.indexOf(tabId) > -1) { //tab there
         } else {
-            console.log('tab is not there, add it')
             var newTabList = val.gsTabs;
             newTabList.push(tabId);
             chrome.storage.sync.set({ 'gsTabs': newTabList }, function () {
                 if (val.gsExcluded.indexOf(hostname) == -1) {
                     callback();
-                }                
+                }
             });
         }
     });
@@ -196,16 +134,12 @@ function addCurrentTab() {
         var tabId = tabs[0].id;
         var hostname = getDomainFromTabs(tabs);
         addTab(tabId, hostname, function () {
-            chrome.tabs.sendMessage(tabs[0].id, { type: 'turnOnGray' });
+            chrome.tabs.sendMessage(tabs[0].id, { type: 'enable' });
             turnIconOn();
             updatePopUpDetails();
         });
     });
 }
-
-// ****************************
-// Remove saved Tabs
-// ****************************
 
 function removeTab(tabId, hostname, callback) {
     chrome.storage.sync.get(['gsSites', 'gsAll', 'gsTabs'], function (val) {
@@ -220,12 +154,12 @@ function removeTab(tabId, hostname, callback) {
             chrome.storage.sync.set({ 'gsTabs': newTabList }, function () {
                 if (val.gsSites.indexOf(hostname) == -1 && !val.gsAll) {
                     console.log('should be good to make site color again');
-                    chrome.tabs.sendMessage(tabId, { type: 'turnOffGray' });
+                    chrome.tabs.sendMessage(tabId, { type: 'disable' });
                     turnIconOff();
                 }
                 if (callback) {
                     callback()
-                }                
+                }
             });
         } else {
             console.log('tab not there, do nothing')
@@ -237,14 +171,48 @@ function removeCurrentTab() {
     console.log('remove current tab')
     chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
         var hostname = getDomainFromTabs(tabs);
-        var tabId = tabs[0].id;        
+        var tabId = tabs[0].id;
         removeTab(tabId, hostname, updatePopUpDetails);
     });
 }
 
-// ****************************
-// Toggle icons
-// ****************************
+
+function handleOptionsAdd(e, inputId, errorMessageId, siteType) {
+    e.preventDefault();
+    var newSite = document.getElementById(inputId).value;
+    var errorMessage = document.getElementById(errorMessageId);
+
+    if (/^(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/.test(newSite)) {
+        errorMessage.classList.remove('error-message--show');
+        addSite(siteType, newSite, false, updateOptionsSiteList);
+        document.getElementById(inputId).value = '';
+        document.getElementById(inputId).blur();
+        document.getElementById(inputId).focus();
+    } else {
+        errorMessage.classList.add('error-message--show');
+        document.getElementById(inputId).blur();
+        document.getElementById(inputId).focus();
+    }
+}
+
+function handleOptionsRemove(e, siteType) {
+    var siteName = e.target.getAttribute('data-site');
+    if (siteName) {
+        removeSite(siteType, siteName, false, updateOptionsSiteList);
+    }
+}
+
+function handleOptionsRemoveAll(siteType, confirmationMessage) {
+    if (confirm(confirmationMessage)) {
+        chrome.storage.sync.get(siteType, function (val) {
+            console.log(`showing ${siteType} before clearing`, val[siteType]);
+            chrome.storage.sync.set({ [siteType]: [] });
+            updateOptionsSiteList();
+        });
+    }
+}
+
+
 
 function turnIconOn() {
     chrome.action.setIcon({
@@ -268,11 +236,9 @@ function turnIconOff() {
     });
 }
 
-// ****************************
-// Refresh options and popup pages
-// ****************************
 
-var toggleHelp = function (e) {    
+
+var toggleHelp = function (e) {
     var toggle = e.target;
     var helpText = e.target.parentElement.parentElement.querySelector('.button-info__description');
     if (helpText.classList.contains('button-info__description--show')) {
@@ -294,26 +260,26 @@ function updatePopUpDetails() {
     var thisTabCheckbox = document.getElementById('this-tab-toggle');
     chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
         var hostname = getDomainFromTabs(tabs);
-        
+
         var siteTitle = document.getElementById('current-site-name');
         siteTitle.innerHTML = hostname;
-        
+
         var savedSiteStatus = document.getElementById('saved-site-status');
         var excludedSiteStatus = document.getElementById('excluded-site-status');
-        
+
         var savedAddRemoveContainer = document.getElementById('saved-container');
         var excludedAddRemoveContainer = document.getElementById('excluded-container');
-        
+
         var popUpContainer = document.querySelector('.container');
         if (tabs[0].url === chrome.runtime.getURL('options.html')) {
             popUpContainer.classList.add('container--options');
-        }    
+        }
         chrome.storage.sync.get(['gsAll', 'gsExcluded', 'gsSites', 'gsTabs'], function (val) {
             console.log('val', val)
             console.log('val.gsTabs', val.gsTabs)
             console.log('tabs[0].id', tabs[0].id)
             console.log('val.gsSites', val.gsSites)
-            console.log('hostname', hostname);            
+            console.log('hostname', hostname);
             if (val.gsAll) {
                 allSitesCheckbox.checked = true;
             } else {
@@ -353,10 +319,10 @@ function updateOptionsSiteList() {
     chrome.storage.sync.get(['gsSites', 'gsExcluded', /*'gsBgToggle'*/], function (val) {
         console.log('gsSites', val.gsSites)
         console.log('gsExcluded', val.gsExcluded);
-      /*  console.log('gsBgToggle', val.gsBgToggle);*/
+        /*  console.log('gsBgToggle', val.gsBgToggle);*/
         var savedUl = document.getElementById('saved-site-list');
         var excludedUl = document.getElementById('excluded-site-list');
-      //  var bgToggle = document.getElementById('background-toggle');
+        //  var bgToggle = document.getElementById('background-toggle');
         savedUl.innerHTML = "";
         excludedUl.innerHTML = "";
 
@@ -385,70 +351,21 @@ function updateOptionsSiteList() {
                 excludedUl.appendChild(excludedLi);
             })
         }
-/*
-        if (val.gsBgToggle) {
-            bgToggle.checked = true;
-        } else {
-            bgToggle.checked = false;
-        }*/
+
     });
 }
-/*
-function toggleBackground() {
-    console.log('toggle background image/color');
-    var checkbox = document.getElementById('background-toggle');
-    chrome.storage.sync.get(['gsBgToggle'], function (val) {
-        console.log('gsBgToggle', val.gsBgToggle);
-        if (val.gsBgToggle) {
-            console.log('checked, turn if off')
-            chrome.storage.sync.set({ 'gsBgToggle': false });
-            checkbox.checked = false;
-        } else {
-            console.log('not checked, turn it on');
-          //  chrome.storage.sync.set({ 'gsBgToggle': true });
-            checkbox.checked = true;
-        }
-    });
-}*/
 
-// ****************************
-// Clear sites
-// ****************************
 
-// only options.js
-function clearSiteValues(tabs) {
-    if (confirm('Are you sure you want to remove all of your saved sites?')) {
-        chrome.storage.sync.get('gsSites', function (val) {
-            console.log('showing gsSites before clearing', val.gsSites);
-            chrome.storage.sync.set({ 'gsSites': [] });
-            updateOptionsSiteList();
-        });
-    }
-}
 
-function clearExcludedSiteValues(tabs) {
-    if (confirm('Are you sure you want to remove all of your excluded sites?')) {
-        chrome.storage.sync.get('gsExcluded', function (val) {
-            console.log('showing gsExcluded before clearing', val.gsExcluded);
-            chrome.storage.sync.set({ 'gsExcluded': [] });
-            updateOptionsSiteList();
-        });
-    }
-}
 
-// ****************************
-// URL Helpers
-// ****************************
+
 
 function getDomainFromTabs(tabs) {
-    var url = tabs[0].url;
-    var hostname = extractRootDomain(url);    
-    return hostname;
+    return extractHostname(tabs[0].url);
 }
 
 function extractHostname(url) {
     var hostname;
-    //find & remove protocol (http, ftp, etc.) and get hostname
 
     if (url.indexOf("://") > -1) {
         hostname = url.split('/')[2];
@@ -461,24 +378,6 @@ function extractHostname(url) {
     hostname = hostname.split(':')[0];
     //find & remove "?"
     hostname = hostname.split('?')[0];
-
     return hostname;
 }
 
-function extractRootDomain(url) {
-    var domain = extractHostname(url),
-        splitArr = domain.split('.'),
-        arrLen = splitArr.length;
-
-    //extracting the root domain here
-    //if there is a subdomain 
-    if (arrLen > 2) {
-        domain = splitArr[arrLen - 2] + '.' + splitArr[arrLen - 1];
-        //check to see if it's using a Country Code Top Level Domain (ccTLD) (i.e. ".me.uk")
-        if (splitArr[arrLen - 2].length == 2 && splitArr[arrLen - 1].length == 2) {
-            //this is using a ccTLD
-            domain = splitArr[arrLen - 3] + '.' + domain;
-        }
-    }
-    return domain;
-}

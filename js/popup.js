@@ -1,5 +1,4 @@
 function toggleAllSites() {
-    // console.log('toggle all sites')
     var checkbox = document.getElementById('all-sites-toggle');
     chrome.storage.sync.get(['gsAll', 'gsExcluded', 'gsSites', 'gsTabs'], function (val) {
         chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
@@ -8,16 +7,14 @@ function toggleAllSites() {
                 checkbox.checked = false;
                 chrome.storage.sync.set({ 'gsAll': false });
                 if (val.gsSites.indexOf(hostname) == -1 && val.gsTabs.indexOf(tabs[0].id) == -1) {
-                    // console.log('tab not on and site not saved, turn off gray');
-                    chrome.tabs.sendMessage(tabs[0].id, { type: 'turnOffGray' });
+                    chrome.tabs.sendMessage(tabs[0].id, { type: 'disable' });
                     turnIconOff();
                 }
             } else {
                 checkbox.checked = true;
                 chrome.storage.sync.set({ 'gsAll': true });
                 if (val.gsExcluded.indexOf(hostname) == -1) {
-                    // console.log('site not excluded, turn on gray');
-                    chrome.tabs.sendMessage(tabs[0].id, { type: 'turnOnGray' });
+                    chrome.tabs.sendMessage(tabs[0].id, { type: 'enable' });
                     turnIconOn();
                 }                
             }
@@ -26,14 +23,11 @@ function toggleAllSites() {
 }
 
 function toggleTab() {
-    // console.log('toggle tab')
     var checkbox = document.getElementById('this-tab-toggle');
     chrome.storage.sync.get(['gsAll', 'gsExcluded', 'gsSites', 'gsTabs'], function (val) {
         if (checkbox.checked) {
-            // console.log('toggle tab checked');
             addCurrentTab();
         } else {
-            // console.log('toggle tab not checked');
             chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
                 var hostname = getDomainFromTabs(tabs);
                 removeCurrentTab();
