@@ -11,25 +11,24 @@
   <div class="container">
     <h1>Grayscaler Options</h1>
     <form id="add-site-form" class="site-form" action="">
-      <h2>Enabled</h2>
-      <input type="text" id="new-site" class="site-input" placeholder="Add Site Here">
-      <button id="save-new-site" class="save-button">Enable</button>
-      <div id="empty-enabled">Enable grayscale on a website or list of websites space or comma separated.</div>
-      <p id="save-site-error" class="error-message">Not a valid website or list of websites space or comma separated.
-      </p>
+      <h2>Included</h2>
+      <input type="text" id="new-site" class="site-input" placeholder="example.com">
+      <button id="save-new-site">Include</button>
+      <div id="empty-enabled">Enable grayscale on a website or space/comma-separated website list.</div>
+      <p id="save-site-error" class="error-message">Not a valid website or space/comma-separated website list. </p>
     </form>
     <ul id="saved-site-list"></ul>
-    <button id="clear-site-values" class="save-button clear-button">Remove Enabled Websites</button>
+    <button id="clear-site-values" class="clear-button">Remove Included Websites</button>
     <form id="add-excluded-site-form" class="site-form site-form--bottom" action="">
-      <h2>Disabled</h2>
-      <input type="text" id="new-excluded-site" class="site-input" placeholder="Add Excluded Site Here">
-      <button id="save-new-excluded-site" class="save-button">Disable</button>
-      <div id="empty-disabled">Disable grayscale on a website or list of websites space or comma separated.</div>
-      <p id="excluded-site-error" class="error-message">Not a valid website or list of websites space or comma
-        separated.</p>
+      <h2>Excluded</h2>
+      <input type="text" id="new-excluded-site" class="site-input" placeholder="example.com">
+      <button id="save-new-excluded-site">Exclude</button>
+      <div id="empty-disabled">Disable grayscale on a website or space/comma-separated website list.</div>
+      <p id="excluded-site-error" class="error-message">Not a valid website or space/comma-separated website list.
+      </p>
     </form>
     <ul id="excluded-site-list"></ul>
-    <button id="clear-excluded-site-values" class="save-button clear-button">Remove Disabled Websites</button>
+    <button id="clear-excluded-site-values" class="clear-button">Remove Excluded Websites</button>
   </div>
   <script type="text/javascript" src="js/manageSites.js"></script>
   <script src="js/options.js"></script>

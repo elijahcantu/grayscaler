@@ -209,6 +209,14 @@ function handleOptionsRemoveAll(siteType, confirmationMessage) {
             chrome.storage.sync.set({ [siteType]: [] });
             updateOptionsSiteList();
         });
+        if (siteType === 'gsExcluded') {
+            document.getElementById('clear-excluded-site-values').style.display = "none";
+
+        }
+        else{
+            document.getElementById('clear-site-values').style.display = "none";
+
+        }
     }
 }
 
@@ -246,12 +254,18 @@ function updatePopUpDetails() {
     chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
         var hostname = getDomainFromTabs(tabs);
 
-        var siteTitle = document.getElementById('current-site-name');
-        siteTitle.innerHTML = hostname;
+        var website = document.getElementById('website');
+        website.innerText = hostname;
 
 
-        var savedAddRemoveContainer = document.getElementById('saved-container');
-        var excludedAddRemoveContainer = document.getElementById('excluded-container');
+        var includeButton = document.getElementById("add-saved-site");
+
+        var removeIncludeButtom = document.getElementById("remove-saved-site");
+
+        var excludeButton = document.getElementById("add-excluded-site");
+
+        var removeExcludeButton = document.getElementById("remove-excluded-site");
+
 
         var popUpContainer = document.querySelector('body');
         if (tabs[0].url === chrome.runtime.getURL('options.html')) {
@@ -277,17 +291,21 @@ function updatePopUpDetails() {
             }
             if (val.gsSites && val.gsSites.indexOf(hostname) > -1) {
                 console.log('site is saved')
-                savedAddRemoveContainer.classList.add('add-remove-container--remove');
+                includeButton.classList.remove("show");
+                removeIncludeButtom.classList.add("show");
             } else {
                 console.log('site is not saved')
-                savedAddRemoveContainer.classList.remove('add-remove-container--remove');
+                includeButton.classList.add("show");
+                removeIncludeButtom.classList.remove("show");
             }
             if (val.gsExcluded && val.gsExcluded.indexOf(hostname) > -1) {
                 console.log('site is excluded')
-                excludedAddRemoveContainer.classList.add('add-remove-container--remove');
+                excludeButton.classList.remove("show");
+                removeExcludeButton.classList.add("show");
             } else {
                 console.log('site is not excluded')
-                excludedAddRemoveContainer.classList.remove('add-remove-container--remove');
+                excludeButton.classList.add("show");
+                removeExcludeButton.classList.remove("show");
             }
         });
     });
@@ -316,7 +334,9 @@ function updateOptionsSiteList() {
                 savedLi.innerHTML = itemText;
                 savedUl.appendChild(savedLi);
             })
-
+            if (val.gsSites.length > 1){
+                document.getElementById('clear-site-values').style.display = "block";
+            }
         }
 
         if (!val.gsExcluded || val.gsExcluded.length < 1) {
@@ -331,6 +351,9 @@ function updateOptionsSiteList() {
                 excludedLi.innerHTML = itemText;
                 excludedUl.appendChild(excludedLi);
             })
+            if (val.gsExcluded.length > 1) {
+                document.getElementById('clear-excluded-site-values').style.display = "block";
+            }
         }
 
     });

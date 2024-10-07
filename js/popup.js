@@ -57,4 +57,6 @@ document.getElementById('remove-saved-site').addEventListener('click', removeCur
 document.getElementById('add-excluded-site').addEventListener('click', addCurrentSiteExcluded)
 document.getElementById('remove-excluded-site').addEventListener('click', removeCurrentSiteExcluded)
 
-document.querySelector('.manage-sites').addEventListener('click', openOptionsPage)
+document.getElementById('openOptionsPage').addEventListener('click', function () {
+    chrome.runtime.openOptionsPage();
+});

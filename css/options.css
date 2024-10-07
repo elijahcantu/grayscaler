@@ -1,5 +1,7 @@
-body {
-    margin: 0;  
+html {
+    display: inline-block;
+        background-color: black;
+        color: white;
 }
 
 .container {
@@ -33,7 +35,6 @@ p, span {
 
 .site-form {
     padding-top: 30px;
-    border-top: 1px solid lightgray;
 }
 
 .site-form--bottom {
@@ -91,4 +92,7 @@ li:last-of-type {
 .background-toggle-section-container {
     border-top: 1px solid lightgray;
     margin-top: 20px;
+}
+#clear-site-values, #clear-excluded-site-values{
+ display:none;
 }

@@ -7,39 +7,26 @@
 </head>
 
 <body>
-  <h1 class="site-name"><strong id="current-site-name">Website Name</strong>
-  </h1>
+  <h1 id="website"></h1>
   <div class="flex">
-    <div id="saved-container" class="add-remove-container">
-      <div class="button-container">
-        <button id="add-saved-site" class="save-button">Include</button>
-        <button id="remove-saved-site" class="save-button clear-button">Stop Including</button>
-      </div>
-    </div>
-    <div id="excluded-container" class="add-remove-container">
-      <div class="button-container">
-        <button id="add-excluded-site" class="save-button">Exclude</button>
-        <button id="remove-excluded-site" class="save-button clear-button">Stop Excluding</button>
-      </div>
-    </div>
+    <button id="add-saved-site">Include</button>
+    <button id="remove-saved-site" class="clear-button">Stop Including</button>
+    <span class="horizontal-spacing"></span>
+    <button id="add-excluded-site">Exclude</button>
+    <button id="remove-excluded-site" class="clear-button">Stop Excluding</button>
   </div>
   <hr>
   <div class="flex">
     <label>
-      <span>Tab</span>
-      <br>
       <input id="this-tab-toggle" class="toggle" type="checkbox" checked />
     </label>
     <label>
-      <span>For All Sites</span>
-      <br>
       <input id="all-sites-toggle" class="toggle" type="checkbox" checked />
     </label>
   </div>
   <hr>
-  <div class="manage-sites-container">
-    <a href="#" class="manage-sites">Grayscaler Options</a>
-  </div>
+  <div class="flex">
+  <button id="openOptionsPage" >Open Options Page</button></div>
   <script type="text/javascript" src="js/manageSites.js"></script>
   <script type="text/javascript" src="js/popup.js">
   </script>

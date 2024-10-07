@@ -6,7 +6,7 @@ html {
 
 }
 
-.site-name {
+#website {
     text-align: center;
     color: white;
 }
@@ -15,66 +15,37 @@ html {
 .flex {
     display: flex;
     justify-content: space-around;
-    align-items: center;
 }
 
 
-#excluded-container {
+.horizontal-spacing {
     margin-left: 10px;
 }
 
 
-
-
-
-
-
-
 .show {
-    display: block;
+    display: block !important;
 }
 
-
-.add-remove-container .save-button {
-    display: inline-block;
-}
-
-.add-remove-container .clear-button {
+#remove-saved-site,
+#add-excluded-site {
     display: none;
 }
 
-.add-remove-container--remove .save-button {
+#add-saved-site {
     display: none;
 }
 
-.add-remove-container--remove .clear-button {
-    display: inline-block;
-}
-
-.save-button {
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-left: 0;
-    width: 100%;
+#remove-excluded-site {
+    display: none;
 }
 
 
 
-
-
-
-
-
-.manage-sites {
-    color: #5AF;
-    text-decoration: none;
+#openOptionsPage {
+    color: "red";
 }
 
-.manage-sites:hover,
-.manage-sites:focus {
-    color: #1587C6;
-    text-decoration: underline;
-}
 
 .toggle {
     appearance: none;
