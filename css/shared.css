@@ -1,72 +1,28 @@
-body {
-    font-family: "Lucida Grande", Tahoma, sans-serif;
-    font-size: 100%;
-}
-
-*, *:before, *:after {
-    box-sizing: border-box;
-}
-
-.clearfix:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.ellipsis {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    display: block;
-    overflow: hidden;
-}
-
 .save-button {
-    display: inline-block;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin-left: 2px;
     border: 1px solid transparent;
     font-size: 14px;
     line-height: 35px;
     border-radius: 5px;
     cursor: pointer;
-    background: #0375B4;
-    color: #fff;
-    transition: 0.3s background-color;
+    background: #5AF;
+    color: black;
 }
 
 .save-button:hover {
     background: #1587C6;
-} 
+}
 
 .clear-button {
-    background-color: #e23636;
+    background-color: #F55;
 }
 
 .clear-button:hover {
     background-color: #F44848;
-} 
-
-.save-button:focus, .clear-button:focus {
-    outline: 0;
-} 
-
-.toggle {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 62px;
-    height: 32px;
-    display: inline-block;
-    position: relative;
-    margin: 0;
-    border-radius: 50px;
-    overflow: hidden;
-    outline: none;
-    border: none;
-    cursor: pointer;
-    background-color: #707070;
-    transition: background-color ease 0.3s;
 }
+
+
+
+
 
 .toggle:before {
     content: "on off";
@@ -88,7 +44,6 @@ body {
     text-shadow: -1px -1px rgba(0, 0, 0, 0.15);
     white-space: nowrap;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s;
 }
 
 .toggle:checked {
@@ -99,7 +54,3 @@ body {
     left: 32px;
 }
 
-.toggle-container span {
-    margin-bottom: 7px;
-    display: inline-block;
-}

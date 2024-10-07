@@ -12,10 +12,9 @@ body {
         width: 750px;
     }
 }
-h1 {
-    font-size: 20px;
-    font-weight: 400;
-    margin-top: 17px;
+
+#empty-enabled{
+    display:none;
 }
 p, span {
     font-size: 14px;
@@ -52,7 +51,6 @@ p, span {
     border: 1px solid lightgray;
     -webkit-appearance: none;
     width: 100%;        
-    transition: .3s border-color;
 }
 
 .site-input:focus {
@@ -69,7 +67,6 @@ p, span {
     border-radius: 5px;
     cursor: pointer;
     color: #e23636;
-    transition: 0.3s color;
 }
 
 .remove-button:hover, .remove-button:focus {

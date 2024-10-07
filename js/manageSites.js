@@ -238,22 +238,7 @@ function turnIconOff() {
 
 
 
-var toggleHelp = function (e) {
-    var toggle = e.target;
-    var helpText = e.target.parentElement.parentElement.querySelector('.button-info__description');
-    if (helpText.classList.contains('button-info__description--show')) {
-        toggle.innerHTML = '<span>?</span>';
-        helpText.classList.remove('button-info__description--show')
-    } else {
-        toggle.innerHTML = '<span>X</span>';
-        helpText.classList.add('button-info__description--show')
-    }
-};
 
-function toggleExcludedHelp() {
-    var helpContainer = document.getElementById('excluded-description');
-    helpContainer.classList.toggle('button-info__description--show');
-}
 
 function updatePopUpDetails() {
     var allSitesCheckbox = document.getElementById('all-sites-toggle');
@@ -264,13 +249,11 @@ function updatePopUpDetails() {
         var siteTitle = document.getElementById('current-site-name');
         siteTitle.innerHTML = hostname;
 
-        var savedSiteStatus = document.getElementById('saved-site-status');
-        var excludedSiteStatus = document.getElementById('excluded-site-status');
 
         var savedAddRemoveContainer = document.getElementById('saved-container');
         var excludedAddRemoveContainer = document.getElementById('excluded-container');
 
-        var popUpContainer = document.querySelector('.container');
+        var popUpContainer = document.querySelector('body');
         if (tabs[0].url === chrome.runtime.getURL('options.html')) {
             popUpContainer.classList.add('container--options');
         }
@@ -294,20 +277,16 @@ function updatePopUpDetails() {
             }
             if (val.gsSites && val.gsSites.indexOf(hostname) > -1) {
                 console.log('site is saved')
-                savedSiteStatus.innerHTML = 'Saved.'
                 savedAddRemoveContainer.classList.add('add-remove-container--remove');
             } else {
                 console.log('site is not saved')
-                savedSiteStatus.innerHTML = 'Not saved.'
                 savedAddRemoveContainer.classList.remove('add-remove-container--remove');
             }
             if (val.gsExcluded && val.gsExcluded.indexOf(hostname) > -1) {
                 console.log('site is excluded')
-                excludedSiteStatus.innerHTML = 'Excluded.'
                 excludedAddRemoveContainer.classList.add('add-remove-container--remove');
             } else {
                 console.log('site is not excluded')
-                excludedSiteStatus.innerHTML = 'Not excluded.'
                 excludedAddRemoveContainer.classList.remove('add-remove-container--remove');
             }
         });
@@ -327,23 +306,25 @@ function updateOptionsSiteList() {
         excludedUl.innerHTML = "";
 
         if (!val.gsSites || val.gsSites.length < 1) {
-            var savedLi = document.createElement('li');
-            savedLi.innerHTML = "No sites saved yet. Use the form above or the extension pop up by clicking the icon in the chrome menu bar while browsing to add some!";
-            savedUl.appendChild(savedLi);
+            document.getElementById('empty-enabled').style.display = "block";
         } else {
+            document.getElementById('empty-enabled').style.display = "none";
+
             val.gsSites.forEach(function (el) {
                 var savedLi = document.createElement('li');
                 var itemText = `<button class="remove-button" data-site="${el}">X</button> ${el}`
                 savedLi.innerHTML = itemText;
                 savedUl.appendChild(savedLi);
             })
+
         }
 
         if (!val.gsExcluded || val.gsExcluded.length < 1) {
-            var excludedLi = document.createElement('li');
-            excludedLi.innerHTML = "No excluded sites added yet. Use the form above to add some!";
-            excludedUl.appendChild(excludedLi);
+            document.getElementById('empty-disabled').style.display = "block";
+
         } else {
+            document.getElementById('empty-disabled').style.display = "none";
+
             val.gsExcluded.forEach(function (el) {
                 var excludedLi = document.createElement('li');
                 var itemText = `<button class="remove-button" data-site="${el}">X</button> ${el}`
