@@ -2,19 +2,21 @@ var includeButton = document.getElementById("add-saved-site");
 var removeIncludeButton = document.getElementById("remove-saved-site");
 var excludeButton = document.getElementById("add-excluded-site");
 var removeExcludeButton = document.getElementById("remove-excluded-site");
+var allCheckbox = document.getElementById( 'all-sites-toggle');
+var thisTabCheckbox = document.getElementById( 'this-tab-toggle' );
+
+
 
 function updatePopUpDetails() {
 
-    var allSitesCheckbox = document.getElementById('all-sites-toggle');
-    var thisTabCheckbox = document.getElementById('this-tab-toggle');
     chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
         var hostname = new URL(tabs[0].url).hostname;
 
         chrome.storage.sync.get(['gsAll', 'gsExcluded', 'gsSites', 'gsTabs'], function (val) {
             if (val.gsAll) {
-                allSitesCheckbox.checked = true;
+                allCheckbox.checked = true;
             } else {
-                allSitesCheckbox.checked = false;
+                allCheckbox.checked = false;
             }
             if (val.gsExcluded && val.gsExcluded.indexOf(hostname) > -1) {
                 console.log('site is excluded')
@@ -124,20 +126,19 @@ removeExcludeButton.addEventListener('click', function removeCurrentSiteExcluded
 
 
 
-document.getElementById('all-sites-toggle').addEventListener('change', function toggleAllSites() {
-    var checkbox = document.getElementById('all-sites-toggle');
+allCheckbox.addEventListener('change', function toggleAllSites() {
     chrome.storage.sync.get(['gsAll', 'gsExcluded', 'gsSites', 'gsTabs'], function (val) {
         chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
             var hostname = new URL(tabs[0].url).hostname;
             if (val.gsAll) {
-                checkbox.checked = false;
+                allCheckbox.checked = false;
                 chrome.storage.sync.set({ 'gsAll': false });
                 if (val.gsSites.indexOf(hostname) == -1 && val.gsTabs.indexOf(tabs[0].id) == -1) {
                     chrome.tabs.sendMessage(tabs[0].id, { type: 'disable' });
                     turnIconOff();
                 }
             } else {
-                checkbox.checked = true;
+                allCheckbox.checked = true;
                 chrome.storage.sync.set({ 'gsAll': true });
                 if (val.gsExcluded.indexOf(hostname) == -1) {
                     chrome.tabs.sendMessage(tabs[0].id, { type: 'enable' });
@@ -147,10 +148,9 @@ document.getElementById('all-sites-toggle').addEventListener('change', function 
         });
     });
 });
-document.getElementById('this-tab-toggle').addEventListener('change', function toggleTab() {
-    var checkbox = document.getElementById('this-tab-toggle');
+thisTabCheckbox.addEventListener('change', function toggleTab() {
     chrome.storage.sync.get(['gsAll', 'gsExcluded', 'gsSites', 'gsTabs'], function (val) {
-        if (checkbox.checked) {
+        if (thisTabCheckbox.checked) {
             chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
                 var tabId = tabs[0].id;
                 var hostname = new URL(tabs[0].url).hostname;
