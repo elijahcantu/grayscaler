@@ -1,25 +1,35 @@
 button {
-    border: 1px solid transparent;
-    font-size: 14px;
-    line-height: 35px;
+    border: 0;
     border-radius: 5px;
     cursor: pointer;
     background: #5AF;
     color: black;
+    text-align: center;
+
+
+
 }
 
 button:hover {
-    background: #1587C6;
+    background: #55c9ff;
 }
 
-.clear-button {
+.show {
+    display: block !important;
+    text-align: center !important;
+}
+
+
+
+
+.red {
     background-color: #F55;
+    text-align: center;
 }
 
-.clear-button:hover {
-    background-color: #F44848;
+.red:hover {
+    background-color: #ff6464;
 }
-
 
 
 
@@ -27,9 +37,11 @@ button:hover {
 #this-tab-toggle:before {
     content: "tab";
 }
+
 #all-sites-toggle:before {
     content: "all";
 }
+
 .toggle:before {
     display: block;
     position: absolute;
@@ -52,6 +64,5 @@ button:hover {
 }
 
 .toggle:checked:before {
-    left: 32px;
+    left: 41px;
 }
-

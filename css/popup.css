@@ -6,6 +6,26 @@ html {
 
 }
 
+button {
+    border: 1px solid transparent;
+    font-size: 14px;
+    line-height: 35px;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #5AF;
+    color: black;
+    text-align: center;
+    margin: 2.5px;
+    min-width: 71px;
+
+}
+
+button:hover {
+    background: #55c9ff;
+}
+
+
+
 #website {
     text-align: center;
     color: white;
@@ -14,18 +34,10 @@ html {
 
 .flex {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-end;
 }
 
 
-.horizontal-spacing {
-    margin-left: 10px;
-}
-
-
-.show {
-    display: block !important;
-}
 
 #remove-saved-site,
 #add-excluded-site {
@@ -44,12 +56,15 @@ html {
 
 #openOptionsPage {
     color: "red";
+    width:147px;
+    
 }
+
 
 
 .toggle {
     appearance: none;
-    width: 62px;
+    width: 71px;
     height: 32px;
     position: relative;
 

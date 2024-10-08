@@ -7,26 +7,20 @@
 </head>
 
 <body>
-  <h1 id="website"></h1>
   <div class="flex">
-    <button id="add-saved-site">Include</button>
-    <button id="remove-saved-site" class="clear-button">Stop Including</button>
-    <span class="horizontal-spacing"></span>
+     <button id="add-saved-site">Include</button>
+      <button id="remove-saved-site" class="red" >Remove</button>
+ 
     <button id="add-excluded-site">Exclude</button>
-    <button id="remove-excluded-site" class="clear-button">Stop Excluding</button>
-  </div>
-  <hr>
+    <button id="remove-excluded-site" class="red">Remove</button></div>
+
   <div class="flex">
-    <label>
-      <input id="this-tab-toggle" class="toggle" type="checkbox" checked />
-    </label>
-    <label>
-      <input id="all-sites-toggle" class="toggle" type="checkbox" checked />
-    </label>
+    <input id="this-tab-toggle" class="toggle" type="checkbox" checked />
+    <input id="all-sites-toggle" class="toggle" type="checkbox" checked />
   </div>
-  <hr>
   <div class="flex">
-  <button id="openOptionsPage" >Open Options Page</button></div>
+    <button id="openOptionsPage">Open Options</button>
+  </div>
   <script type="text/javascript" src="js/manageSites.js"></script>
   <script type="text/javascript" src="js/popup.js">
   </script>

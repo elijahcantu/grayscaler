@@ -1,8 +1,126 @@
-function toggleAllSites() {
+function updatePopUpDetails() {
+    var allSitesCheckbox = document.getElementById('all-sites-toggle');
+    var thisTabCheckbox = document.getElementById('this-tab-toggle');
+    chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
+        var hostname = new URL(tabs[0].url).hostname;
+
+        var includeButton = document.getElementById("add-saved-site");
+
+        var removeIncludeButtom = document.getElementById("remove-saved-site");
+
+        var excludeButton = document.getElementById("add-excluded-site");
+
+        var removeExcludeButton = document.getElementById("remove-excluded-site");
+
+        chrome.storage.sync.get(['gsAll', 'gsExcluded', 'gsSites', 'gsTabs'], function (val) {
+            if (val.gsAll) {
+                allSitesCheckbox.checked = true;
+            } else {
+                allSitesCheckbox.checked = false;
+            }
+            if (val.gsExcluded && val.gsExcluded.indexOf(hostname) > -1) {
+                console.log('site is excluded')
+                excludeButton.classList.remove("show");
+                removeExcludeButton.classList.add("show");
+            } else {
+                console.log('site is not excluded')
+                excludeButton.classList.add("show");
+                removeExcludeButton.classList.remove("show");
+            }
+            if (val.gsSites && val.gsSites.indexOf(hostname) > -1) {
+                console.log('site is saved')
+                includeButton.classList.remove("show");
+                removeIncludeButtom.classList.add("show");
+            } else {
+                console.log('site is not saved')
+                includeButton.classList.add("show");
+                removeIncludeButtom.classList.remove("show");
+            }
+            if (val.gsTabs && val.gsTabs.indexOf(tabs[0].id) > -1) {
+                console.log('tab is on')
+                thisTabCheckbox.checked = true;
+            } else {
+                console.log('tab is off')
+                thisTabCheckbox.checked = false;
+            }
+
+        });
+    });
+}
+
+updatePopUpDetails();
+
+
+
+
+
+
+
+
+
+document.getElementById('add-excluded-site').addEventListener('click', function addCurrentSiteExcluded() {
+    console.log('add current site excluded');
+    chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
+        var hostname = new URL(tabs[0].url).hostname;
+        addSite('gsExcluded', hostname, tabs, function (gsAll, gsTabs, gsSites) {
+            if ((gsAll || gsTabs.indexOf(tabs[0].id) > -1) && gsSites.indexOf(hostname) == -1) {
+                chrome.tabs.sendMessage(tabs[0].id, { type: 'disable' });
+                turnIconOff();
+            }
+            updatePopUpDetails();
+        });
+    });
+});
+document.getElementById('remove-excluded-site').addEventListener('click', function removeCurrentSiteExcluded() {
+    console.log('remove current site excluded')
+    chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
+        var hostname = new URL(tabs[0].url).hostname;
+        removeSite('gsExcluded', hostname, tabs, function (gsAll, gsTabs, gsSites) {
+            if ((gsAll || gsTabs.indexOf(tabs[0].id) > -1) && gsSites.indexOf(hostname) == -1) {
+                chrome.tabs.sendMessage(tabs[0].id, { type: 'enable' });
+                turnIconOn();
+            }
+            updatePopUpDetails();
+        });
+    });
+});
+
+document.getElementById('add-saved-site').addEventListener('click', function addCurrentSite() {
+    console.log('add current site');
+    chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
+        var hostname = new URL(tabs[0].url).hostname;
+        addSite('gsSites', hostname, tabs, function () {
+            chrome.tabs.sendMessage(tabs[0].id, { type: 'enable' });
+            turnIconOn();
+            updatePopUpDetails();
+        });
+    });
+});
+document.getElementById('remove-saved-site').addEventListener('click', function removeCurrentSite() {
+    console.log('remove current site')
+    chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
+        var hostname = new URL(tabs[0].url).hostname;
+        removeSite('gsSites', hostname, tabs, function (gsAll, gsTabs, gsSites) {
+            if (!gsAll && gsTabs.indexOf(tabs[0].id) == -1) {
+                chrome.tabs.sendMessage(tabs[0].id, { type: 'disable' });
+                turnIconOff();
+            }
+            updatePopUpDetails();
+        });
+    });
+});
+
+document.getElementById('openOptionsPage').addEventListener('click', function () {
+    chrome.runtime.openOptionsPage();
+});
+
+
+
+document.getElementById('all-sites-toggle').addEventListener('change', function toggleAllSites() {
     var checkbox = document.getElementById('all-sites-toggle');
     chrome.storage.sync.get(['gsAll', 'gsExcluded', 'gsSites', 'gsTabs'], function (val) {
         chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
-            var hostname = getDomainFromTabs(tabs);
+            var hostname = new URL(tabs[0].url).hostname;
             if (val.gsAll) {
                 checkbox.checked = false;
                 chrome.storage.sync.set({ 'gsAll': false });
@@ -16,47 +134,31 @@ function toggleAllSites() {
                 if (val.gsExcluded.indexOf(hostname) == -1) {
                     chrome.tabs.sendMessage(tabs[0].id, { type: 'enable' });
                     turnIconOn();
-                }                
+                }
             }
         });
     });
-}
-
-function toggleTab() {
+});
+document.getElementById('this-tab-toggle').addEventListener('change', function toggleTab() {
     var checkbox = document.getElementById('this-tab-toggle');
     chrome.storage.sync.get(['gsAll', 'gsExcluded', 'gsSites', 'gsTabs'], function (val) {
         if (checkbox.checked) {
-            addCurrentTab();
+            chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
+                var tabId = tabs[0].id;
+                var hostname = new URL(tabs[0].url).hostname;
+                addTab(tabId, hostname, function () {
+                    chrome.tabs.sendMessage(tabs[0].id, { type: 'enable' });
+                    turnIconOn();
+                    updatePopUpDetails();
+                });
+            });
         } else {
             chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
-                var hostname = getDomainFromTabs(tabs);
-                removeCurrentTab();
+                var hostname = new URL(tabs[0].url).hostname;
+                var tabId = tabs[0].id;
+                removeTab(tabId, hostname, updatePopUpDetails);
             });
         }
     });
-    
-}
 
-function openOptionsPage() {
-    if (chrome.runtime.openOptionsPage) {
-        chrome.runtime.openOptionsPage();
-    } else {
-        window.open(chrome.runtime.getURL('options.html'));
-    }
-}
-
-updatePopUpDetails();
-
-
-document.getElementById('this-tab-toggle').addEventListener('change', toggleTab)
-document.getElementById('all-sites-toggle').addEventListener('change', toggleAllSites)
-
-document.getElementById('add-saved-site').addEventListener('click', addCurrentSite)
-document.getElementById('remove-saved-site').addEventListener('click', removeCurrentSite)
-
-document.getElementById('add-excluded-site').addEventListener('click', addCurrentSiteExcluded)
-document.getElementById('remove-excluded-site').addEventListener('click', removeCurrentSiteExcluded)
-
-document.getElementById('openOptionsPage').addEventListener('click', function () {
-    chrome.runtime.openOptionsPage();
 });

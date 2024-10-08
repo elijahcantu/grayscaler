@@ -1,10 +1,52 @@
 updateOptionsSiteList();
 
-chrome.runtime.onMessage.addListener(function (request, sender, response) {
-    if (request.type === 'updateOptions') {
-        updateOptionsSiteList();
+
+function handleOptionsAdd(e, inputId, errorMessageId, siteType) {
+    e.preventDefault();
+    var newSite = document.getElementById(inputId).value;
+    var errorMessage = document.getElementById(errorMessageId);
+
+    if (/^(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/.test(newSite)) {
+        errorMessage.classList.remove('show');
+        addSite(siteType, newSite, false, updateOptionsSiteList);
+        document.getElementById(inputId).value = '';
+        document.getElementById(inputId).blur();
+        document.getElementById(inputId).focus();
+    } else {
+        errorMessage.classList.add('show');
+        document.getElementById(inputId).blur();
+        document.getElementById(inputId).focus();
     }
-});
+}
+
+
+function handleOptionsRemove(e, siteType) {
+    var siteName = e.target.getAttribute('data-site');
+    if (siteName) {
+        removeSite(siteType, siteName, false, updateOptionsSiteList);
+    }
+}
+
+function handleOptionsRemoveAll(siteType, confirmationMessage) {
+    if (confirm(confirmationMessage)) {
+        chrome.storage.sync.get(siteType, function (val) {
+            console.log(`showing ${siteType} before clearing`, val[siteType]);
+            chrome.storage.sync.set({ [siteType]: [] });
+            updateOptionsSiteList();
+        });
+        if (siteType === 'gsExcluded') {
+            document.getElementById('clear-excluded-site-values').style.display = "none";
+
+        }
+        else {
+            document.getElementById('clear-site-values').style.display = "none";
+
+        }
+    }
+}
+
+
+
 
 document.getElementById('add-site-form').addEventListener('submit', function (e) {
     handleOptionsAdd(e, 'new-site', 'save-site-error', 'gsSites');
