@@ -4,6 +4,7 @@ var excludeButton = document.getElementById("add-excluded-site");
 var removeExcludeButton = document.getElementById("remove-excluded-site");
 
 function updatePopUpDetails() {
+
     var allSitesCheckbox = document.getElementById('all-sites-toggle');
     var thisTabCheckbox = document.getElementById('this-tab-toggle');
     chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
@@ -55,20 +56,46 @@ updatePopUpDetails();
 
 
 
+
+
+includeButton.addEventListener('click', function addCurrentSite() {
+    console.log('add current site');
+    chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
+        var hostname = new URL(tabs[0].url).hostname;
+        removeSite('gsExcluded', hostname, tabs);
+        addSite('gsSites', hostname, tabs, function () {
+            chrome.tabs.sendMessage(tabs[0].id, { type: 'enable' });
+            turnIconOn();
+            updatePopUpDetails();
+
+        });
+    });
+});
 excludeButton.addEventListener('click', function addCurrentSiteExcluded() {
     console.log('add current site excluded');
     chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
         var hostname = new URL(tabs[0].url).hostname;
-
-        // Check if the site is included, if so, remove it
         removeSite('gsSites', hostname, tabs);
+        addSite('gsExcluded', hostname, tabs, function () {
+            chrome.tabs.sendMessage(tabs[0].id, { type: 'disable' });
+            turnIconOff();
+            updatePopUpDetails();
+        });
+    });
+});
 
-        // Now add the site to excluded
-        addSite('gsExcluded', hostname, tabs, function (gsAll, gsTabs, gsSites) {
-            if ((gsAll || gsTabs.indexOf(tabs[0].id) > -1) && gsSites.indexOf(hostname) == -1) {
+removeIncludeButton.addEventListener('click', function removeCurrentSite() {
+    console.log('remove current site');
+    chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
+        var hostname = new URL(tabs[0].url).hostname;
+
+        removeSite('gsSites', hostname, tabs, function (gsAll, gsTabs) {
+            if ((!gsAll && gsTabs.indexOf(tabs[0].id) == -1)) {
                 chrome.tabs.sendMessage(tabs[0].id, { type: 'disable' });
                 turnIconOff();
             }
+
+
             updatePopUpDetails();
         });
     });
@@ -78,8 +105,8 @@ removeExcludeButton.addEventListener('click', function removeCurrentSiteExcluded
     console.log('remove current site excluded');
     chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
         var hostname = new URL(tabs[0].url).hostname;
-        removeSite('gsExcluded', hostname, tabs, function (gsAll, gsTabs, gsSites) {
-            if ((gsAll || gsTabs.indexOf(tabs[0].id) > -1) && gsSites.indexOf(hostname) == -1) {
+        removeSite('gsExcluded', hostname, tabs, function (gsAll, gsTabs) {
+            if ((gsAll || gsTabs.indexOf(tabs[0].id) > -1)) {
                 chrome.tabs.sendMessage(tabs[0].id, { type: 'enable' });
                 turnIconOn();
             }
@@ -88,37 +115,9 @@ removeExcludeButton.addEventListener('click', function removeCurrentSiteExcluded
     });
 });
 
-includeButton.addEventListener('click', function addCurrentSite() {
-    console.log('add current site');
-    chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
-        var hostname = new URL(tabs[0].url).hostname;
 
-        // Check if the site is excluded, if so, remove it
-        removeSite('gsExcluded', hostname, tabs);
 
-        // Now add the site to included
-        addSite('gsSites', hostname, tabs, function () {
-            chrome.tabs.sendMessage(tabs[0].id, { type: 'enable' });
-            turnIconOn();
-            updatePopUpDetails();
 
-        });
-    });
-});
-
-removeIncludeButton.addEventListener('click', function removeCurrentSite() {
-    console.log('remove current site');
-    chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
-        var hostname = new URL(tabs[0].url).hostname;
-        removeSite('gsSites', hostname, tabs, function (gsAll, gsTabs, gsSites) {
-            if (!gsAll && gsTabs.indexOf(tabs[0].id) == -1) {
-                chrome.tabs.sendMessage(tabs[0].id, { type: 'disable' });
-                turnIconOff();
-            }
-            updatePopUpDetails();
-        });
-    });
-});
 
 
 

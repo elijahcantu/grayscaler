@@ -23,10 +23,6 @@ function addSite(type, site, tabs, callback) {
     });
 }
 
-
-
-
-
 function removeSite(type, site, tabs, callback) {
     chrome.storage.sync.get(['gsSites', 'gsAll', 'gsTabs', 'gsExcluded'], function (val) {
         console.log(type + ' in removeSite', val);
@@ -45,8 +41,6 @@ function removeSite(type, site, tabs, callback) {
         }
     });
 }
-
-
 
 function addTab(tabId, hostname, callback) {
     chrome.storage.sync.get(['gsTabs', 'gsExcluded'], function (val) {
@@ -70,8 +64,6 @@ function addTab(tabId, hostname, callback) {
     });
 }
 
-
-
 function removeTab(tabId, hostname, callback) {
     chrome.storage.sync.get(['gsSites', 'gsAll', 'gsTabs'], function (val) {
         if (val.gsTabs && val.gsTabs.indexOf(tabId) > -1) {
@@ -92,12 +84,6 @@ function removeTab(tabId, hostname, callback) {
         }
     });
 }
-
-
-
-
-
-
 
 function turnIconOn() {
     chrome.action.setIcon({
@@ -120,9 +106,6 @@ function turnIconOff() {
         }
     });
 }
-
-
-
 
 function updateOptionsSiteList() {
     chrome.storage.sync.get(['gsSites', 'gsExcluded'], function (val) {
@@ -166,12 +149,4 @@ function updateOptionsSiteList() {
 
     });
 }
-
-
-
-
-
-
-
-
 
