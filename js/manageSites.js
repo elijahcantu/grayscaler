@@ -1,25 +1,29 @@
 function addSite(type, site, tabs, callback) {
-    var paramObj;
-    chrome.storage.sync.get(['gsSites', 'gsExcluded', 'gsTabs', 'gsAll'], function (val) {
-        console.log(type + ' in addSite', val);
-        if (!val[type] || val[type].length < 1) {
-            console.log(type + ' doesnt exist yet, lets add it');
-            paramObj = {};
-            paramObj[type] = [site];
-            chrome.storage.sync.set(paramObj, function () {
-                callback(val.gsAll, val.gsTabs, val.gsSites);
-            });
-        } else if (val[type].indexOf(site) == -1) {
-            console.log(type + 'site not there, add it')
-            var newSiteList = val[type];
-            newSiteList.push(site);
-            newSiteList.sort();
-            paramObj = {};
-            paramObj[type] = newSiteList
-            chrome.storage.sync.set(paramObj, function () {
-                callback(val.gsAll, val.gsTabs, val.gsSites);
-            });
-        }
+    return new Promise((resolve) => {
+        chrome.storage.sync.get(['gsSites', 'gsExcluded', 'gsTabs', 'gsAll'], function (val) {
+            console.log(type + ' in addSite', val);
+            var paramObj;
+            if (!val[type] || val[type].length < 1) {
+                console.log(type + ' doesn’t exist yet, lets add it');
+                paramObj = {};
+                paramObj[type] = [site];
+                chrome.storage.sync.set(paramObj, function () {
+                    resolve(callback(val.gsAll, val.gsTabs, val.gsSites));
+                });
+            } else if (val[type].indexOf(site) == -1) {
+                console.log(type + ' site not there, adding it');
+                var newSiteList = val[type];
+                newSiteList.push(site);
+                newSiteList.sort();
+                paramObj = {};
+                paramObj[type] = newSiteList;
+                chrome.storage.sync.set(paramObj, function () {
+                    resolve(callback(val.gsAll, val.gsTabs, val.gsSites));
+                });
+            } else {
+                resolve(callback(val.gsAll, val.gsTabs, val.gsSites)); // Site already exists, resolve immediately
+            }
+        });
     });
 }
 
@@ -52,7 +56,7 @@ function addTab(tabId, hostname, callback) {
                     callback();
                 }
             });
-        } else if (val.gsTabs.indexOf(tabId) == -1) { //tab not there
+        } else if (val.gsTabs.indexOf(tabId) == -1) { 
             var newTabList = val.gsTabs;
             newTabList.push(tabId);
             chrome.storage.sync.set({ 'gsTabs': newTabList }, function () {

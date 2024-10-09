@@ -10,25 +10,34 @@
 <body>
   <div class="container">
     <h1>Grayscaler Options</h1>
+    <p>Pin the extension to the toolbar to access settings for the current website, tab, or all websites.</p>
+    <p>If you found a bug or would like to request a feature, please contact me at <a class="link"
+        href="mailto:caelijah@umich.edu" target="_blank">caelijah@umich.edu</a>.</p>
     <form id="add-site-form" class="site-form" action="">
       <h2>Included</h2>
       <input type="text" id="new-site" class="site-input" placeholder="example.com">
-      <button id="save-new-site">Include</button>
-      <div id="empty-enabled">Enable grayscale on a website or space/comma-separated website list.</div>
-      <p id="save-site-error" class="error-message">Not a valid website or space/comma-separated website list. </p>
+      <button id="save-new-site">Add</button>
+      <p id="empty-enabled">Add a website or list of space/comma-separated websites to enable grayscale on.</p>
+      <p id="save-site-error" class="error-message">Not a valid website or list of space/comma-separated websites.</p>
     </form>
     <ul id="saved-site-list"></ul>
     <button id="clear-site-values" class="red">Remove Included Websites</button>
     <form id="add-excluded-site-form" class="site-form site-form--bottom" action="">
       <h2>Excluded</h2>
       <input type="text" id="new-excluded-site" class="site-input" placeholder="example.com">
-      <button id="save-new-excluded-site">Exclude</button>
-      <div id="empty-disabled">Disable grayscale on a website or space/comma-separated website list.</div>
-      <p id="excluded-site-error" class="error-message">Not a valid website or space/comma-separated website list.
+      <button id="save-new-excluded-site">Add</button>
+      <p id="empty-disabled">Add a website or list of space/comma-separated websites to disable grayscale on.</p>
+      <p id="excluded-site-error" class="error-message">Not a valid website or list of space/comma-separated websites.
       </p>
     </form>
     <ul id="excluded-site-list"></ul>
     <button id="clear-excluded-site-values" class="red">Remove Excluded Websites</button>
+    <br>
+    <p>Enter the entire domain for a website (e.g., www.google.com, not google.com) for settings to apply properly.</p>
+    <p>However, a website may not have a subdomain (e.g., <a class="link" href="https://elijahcantu.com"
+        target="_blank">elijahcantu.com</a>, not www.elijahcantu.com).</p>
+    <p>Eventually, I will update this to not require you to add the entire domain unless you want to add a subdomain.
+    </p>
   </div>
   <script type="text/javascript" src="js/manageSites.js"></script>
   <script src="js/options.js"></script>

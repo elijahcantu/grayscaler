@@ -1,24 +1,37 @@
 updateOptionsSiteList();
 
-
-function handleOptionsAdd(e, inputId, errorMessageId, siteType) {
+async function handleOptionsAdd(e, inputId, errorMessageId, siteType) {
     e.preventDefault();
-    var newSite = document.getElementById(inputId).value;
+    var newSitesInput = document.getElementById(inputId).value;
     var errorMessage = document.getElementById(errorMessageId);
+    var newSites = newSitesInput.split(/[, ]+/).map(site => site.trim().toLowerCase()).filter(Boolean);
+    let validSites = [];
+    let invalidSites = [];
 
-    if (/^(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/.test(newSite)) {
+    newSites.forEach(newSite => {
+        if (/^(?:[a-z0-9-]+\.)+[a-z]{2,}$/.test(newSite)) {
+            validSites.push(newSite);
+        } else {
+            invalidSites.push(newSite);
+        }
+    });
+
+    if (validSites.length > 0) {
         errorMessage.classList.remove('show');
-        addSite(siteType, newSite, false, updateOptionsSiteList);
+        for (const site of validSites) {
+            await addSite(siteType, site, false, updateOptionsSiteList);
+        }
         document.getElementById(inputId).value = '';
         document.getElementById(inputId).blur();
         document.getElementById(inputId).focus();
-    } else {
+    }
+
+    if (invalidSites.length > 0) {
         errorMessage.classList.add('show');
         document.getElementById(inputId).blur();
         document.getElementById(inputId).focus();
     }
 }
-
 
 function handleOptionsRemove(e, siteType) {
     var siteName = e.target.getAttribute('data-site');
@@ -44,9 +57,6 @@ function handleOptionsRemoveAll(siteType, confirmationMessage) {
         }
     }
 }
-
-
-
 
 document.getElementById('add-site-form').addEventListener('submit', function (e) {
     handleOptionsAdd(e, 'new-site', 'save-site-error', 'gsSites');

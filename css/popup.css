@@ -2,12 +2,15 @@ html {
     display: inline-block;
     background-color: black;
     color: white;
+    font-size: 16px;
+}
 
-
+body {
+    margin: 5px;
 }
 
 button {
-    border: 1px solid transparent;
+    border: 0;
     font-size: 14px;
     line-height: 35px;
     border-radius: 5px;
@@ -15,29 +18,30 @@ button {
     background: #5AF;
     color: black;
     text-align: center;
-    margin: 2.5px;
     min-width: 71px;
+    padding: 0px;
+    margin:0px;
+    margin-top: 2.5px;
+    margin-bottom: 2.5px;
+}
 
+.center {
+    text-align: center;
 }
 
 button:hover {
     background: #55c9ff;
 }
 
-
-
 #website {
     text-align: center;
     color: white;
 }
 
-
 .flex {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
-
-
 
 #remove-saved-site,
 #add-excluded-site {
@@ -52,26 +56,54 @@ button:hover {
     display: none;
 }
 
-
-
 #openOptionsPage {
     color: "red";
-    width:147px;
-    
+    width: 147px;
+
 }
-
-
 
 .toggle {
     appearance: none;
     width: 71px;
     height: 32px;
     position: relative;
-
     border-radius: 50px;
     overflow: hidden;
-
+    margin:0px;
+    margin-top: 2.5px;
+    margin-bottom: 2.5px;
     cursor: pointer;
     background-color: #808080;
+}
 
+#this-tab-toggle:before {
+    content: "tab";
+}
+
+#all-sites-toggle:before {
+    content: "all";
+}
+
+.toggle:before {
+    display: block;
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    background: white;
+    left: 2px;
+    top: 2px;
+    border-radius: 50%;
+    font: 10px/28px Helvetica;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-indent: 4px;
+    color: black;
+}
+
+.toggle:checked {
+    background-color: #1bb76e;
+}
+
+.toggle:checked:before {
+    left: 41px;
 }
