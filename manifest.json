@@ -2,6 +2,7 @@
 	"manifest_version": 3,
 	"name": "Grayscaler",
 	"description": "Applies a grayscale filter on tabs, included websites, or all websites except those excluded.",
+	"key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtA/DYwtB6WyGtlzeQnOrGNlyFr2Xas1IqEG5tJM6tq9+78Wrt8dFWG9fc54U90tv/fBt9RFKUQ+KpL0lBp0nQTCItKF7I4ExAdXKaDVWpdzqmNfodtzyv1QhQYPPPOM2QUiu4kUaz8wm9mu+BAOrI94ihTVjxnN336r8EGaTkGsJhlRL/S/anCoc4QjrQuX3vLfllHUv/AL+4rfOzjN+dxk1fckfXJQHCIPiJjISDuDjC7FAagDRPUAhc48Zone+y8lctUqox/wzr6jtYWti0N5SYrAUyxtyRTLB1c4sQbzJHu4SKX2nyLm1wmkXx9FOfFPLg5S+IFBq7FuO1XoWGwIDAQAB",
 	"version": "1",
 	"author": "Elijah Cantu",
 	"background": {
@@ -13,8 +14,8 @@
 				"*://*/*"
 			],
 			"js": [
-				"js/manageSites.js",
-				"js/content.js"
+				"js/content.js",
+				"js/manageSites.js"
 			],
 			"run_at": "document_start"
 		}
