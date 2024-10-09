@@ -154,3 +154,13 @@ function updateOptionsSiteList() {
     });
 }
 
+function isProtectedPage(url) {
+    const protectedUrls = [
+        'chrome',
+        'file',
+        'data',
+        'https://chromewebstore.google.com/',
+        'https://chrome.google.com/'
+    ];
+    return protectedUrls.some(prefix => url.startsWith(prefix));
+}

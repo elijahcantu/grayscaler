@@ -4,7 +4,8 @@ var excludeButton = document.getElementById("add-excluded-site");
 var removeExcludeButton = document.getElementById("remove-excluded-site");
 var allCheckbox = document.getElementById('all-sites-toggle');
 var thisTabCheckbox = document.getElementById('this-tab-toggle');
-
+var popupContent = document.getElementById('popup-content');
+var protectedMessage = document.getElementById('protected-message');
 
 
 function updatePopUpDetails() {
@@ -48,7 +49,23 @@ function updatePopUpDetails() {
     });
 }
 
-updatePopUpDetails();
+
+// Check for protected page on window load
+window.addEventListener('load', function () {
+    chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
+        if (tabs.length > 0) {
+            const currentUrl = tabs[0].url;
+            if (isProtectedPage(currentUrl)) {
+                popupContent.classList.add('hidden'); 
+                protectedMessage.classList.add('show'); 
+                return; 
+            }
+            updatePopUpDetails(); 
+        }
+    });
+});
+
+updatePopUpDetails(); // Initial call to set up popup
 
 includeButton.addEventListener('click', function addCurrentSite() {
     console.log('add current site');

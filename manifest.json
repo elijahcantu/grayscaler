@@ -1,8 +1,7 @@
 {
 	"manifest_version": 3,
 	"name": "Grayscaler",
-	"description": "Applies a grayscale filter on tabs, enabled websites, or all websites except those disabled.",
-	"key":"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkJBjYT8wobz+IhLKKm7PgN8XRoXJ7waFONqmBcu/6i6xVgfQrPU6fhqulgHoPDFk2syE9YUJXX60eJSlbm3r/9yrLCtt8CLaWnrx9JFglVFysxlQi0wTjQYcS5K1cS9vvnX9Fx//4VkdFtIWWcdmRl7JFrOm3AQ1DSb/pAsWdS+KO4sfFCYK4NInZAoX6fDNUvTLXTGAKmIYjXuf98RvO7bVW50KrhUKeI+LMzN+2+PHI2KG+mVpFpVj1LZHiC2XO7jgxTMI3OfBmQCmQKb/7/jCbUFD5nbLSTwXFMNI/9kvX+yinFgyWiIltHPHyj3IG3Irlrwcuzg42hdi6MgNXQIDAQAB",
+	"description": "Applies a grayscale filter on tabs, included websites, or all websites except those excluded.",
 	"version": "1",
 	"author": "Elijah Cantu",
 	"background": {

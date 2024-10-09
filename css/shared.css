@@ -11,9 +11,18 @@ button:hover {
     background: #55c9ff;
 }
 
+#protected-message {
+    display: none;
+    width: 200px;
+}
+
 .show {
     display: block !important;
     text-align: center !important;
+}
+
+.hidden {
+    display: none;
 }
 
 .red {
@@ -24,7 +33,3 @@ button:hover {
 .red:hover {
     background-color: #ff6464;
 }
-
-
-
-
